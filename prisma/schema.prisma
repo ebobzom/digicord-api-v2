@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  // url      = env("LOCAL_POSTGRES_URL")
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+enum Role {
+  PATIENT
+  DOCTOR
+  ADMIN
+  SUPERADMIN
+}
+
+enum SEX {
+  MALE
+  FEMALE
+}
+
+model Patient {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  email         String   @unique
+  firstName     String
+  lastName      String
+  phoneNumber   String
+  password      String
+  sex           SEX
+  location      String
+  age           Int
+  country       String?
+  address       String?
+  profilePicURL String?
+  state         String?
+  city          String?
+  logoURL       String?
+  role          Role     @default(PATIENT)
+}
+
+model Doctor {
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  email          String   @unique
+  firstName      String
+  lastName       String
+  phoneNumber    String
+  password       String
+  sex            SEX
+  location       String
+  specialization String
+  IDNumber       String
+  country        String?
+  address        String?
+  profilePicURL  String?
+  state          String?
+  city           String?
+  logoURL        String?
+  role           Role     @default(DOCTOR)
+}
